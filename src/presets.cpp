@@ -18,12 +18,12 @@ void selectPreset()
     buttonNum = buttonChoice();
     switch (buttonNum)
     {
-    case 0 ... 11: // select between presets 0 through 11
+    case BTN1 ... BTN12: // select between presets 1 through 12
       recallPrefs(buttonNum);
       flashLEDs(1);
       select = true;
       break;
-    case 17: // initiate full setup
+    case BTN18: // initiate full setup
       flashLEDs(1);
       setupMode(); // run selection for channel, root note, scale
       select = true;
@@ -56,7 +56,7 @@ void setupMIDIChan()
     if (blinkTick(1200))
       writeLED(ledRight_Green, ledState);
     buttonNum = buttonChoice();
-    if ((buttonNum > -1) && (buttonNum < 16)) // only buttons 1-16 map to a valid MIDI channel
+    if ((buttonNum > -1) && (buttonNum < BTN17)) // only buttons 1-16 map to a valid MIDI channel
     {
       midiChan = buttonNum + 1; // add one to MIDI value as channel appears to need to be sent as 1-16 instead of 0-15
       select = true;
@@ -109,11 +109,11 @@ void savePreset()
     buttonNum = buttonChoice();
     switch (buttonNum)
     {
-    case 0 ... 11: // select between presets 0 through 11
+    case BTN1 ... BTN12: // select between presets 1 through 12
       storePrefs(buttonNum);
       select = true;
       break;
-    case 17: // press button 18 row to exit and not save
+    case BTN18: // press button 18 row to exit and not save
       select = true;
       break;
     }

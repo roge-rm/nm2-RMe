@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "driver/rtc_io.h"
+#include "soc/rtc_cntl_reg.h"
 
 #include "config.h"
 #include "globals.h"
@@ -43,4 +44,12 @@ void enterSleep()
   esp_sleep_enable_gpio_wakeup();
 
   esp_deep_sleep_start(); // go to deep sleep - never returns; waking is a full chip reset back through setup()
+}
+
+void rebootToBootloader()
+{ // forces the ROM bootloader into USB/UART download mode on the next boot (bypassing GPIO0
+  // strapping), so the device can be reflashed without opening the case
+  flashLEDs(2);
+  REG_WRITE(RTC_CNTL_OPTION1_REG, RTC_CNTL_FORCE_DOWNLOAD_BOOT);
+  esp_restart(); // never returns
 }

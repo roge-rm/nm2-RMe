@@ -1,7 +1,7 @@
 # nm2-RMe
 ##### alternate firmware for the NM2 by this.is.NOISE
 
-nm2-RMe is a scaled down alternative firmware for the NM2 MIDI controller that offers a different experience - still 18 buttons assigned to scales but everything is configured on device using key combinations and a pair of very expressive LEDs.
+nm2-RMe is a scaled down alternative firmware for the NM2 MIDI controller that offers a different experience - still 18 buttons assigned to scales but everything is configured on device using key combinations and a pair of very expressive LED clusters.
 
 A few things that differ:
 - there is no app to configure anything, everything is done on device
@@ -53,4 +53,4 @@ Remove the four face screws from your NM2, remove the faceplate and then gently 
 
 Ensure your device is on and connect a USB C cable to the USB C port from your computer. While holding SW2, briefly press SW1. The LEDs will turn off, indicating your device is now in flash mode. Flash the firmware. 
 
--- I'll put more flashing instructions here later --
+Once the device has been flashed once you can enter bootloader mode but turning the volume to 0 and holding button 17 for 5 seconds.

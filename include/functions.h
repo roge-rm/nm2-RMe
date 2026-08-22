@@ -5,6 +5,7 @@
 void initPower();
 void enterSleep();
 void chargeStatus();
+void rebootToBootloader();
 
 // leds.cpp
 void initLEDs();

@@ -177,10 +177,10 @@ void actionButtons()
           int rowOctave = min((int)currentOctave, 5) + row;
           midiONChord(i, i % 6, (rowOctave - currentOctave) * 12);
         }
-        else if (i < 12)
+        else if (i < BTN13)
           midiON(i);
         else if (chordMode == 2)
-          midiONChord(i, i - 12, -12); // chord + note: bottom row plays chords one octave down so they ring under the notes played on top
+          midiONChord(i, i - BTN13, -12); // chord + note: bottom row plays chords one octave down so they ring under the notes played on top
         else
           midiON(i); // no chord mode active: bottom row plays plain notes like the rest
       }
@@ -188,62 +188,64 @@ void actionButtons()
   }
   else
   { // some buttons have second functions when the velocity is turned to 0 and they are held for BUTTONHOLDTIME ms
-    if (buttons[12].released() && (buttons[12].previousDuration() > BUTTONHOLDTIME))
-    {              // button 13 saves preset
-      midiOFF(12); // turn off any notes sent when button was held
+    if (buttons[BTN13].released() && (buttons[BTN13].previousDuration() > BUTTONHOLDTIME))
+    {                 // button 13 saves preset
+      midiOFF(BTN13); // turn off any notes sent when button was held
       savePreset();
     }
-    if (buttons[0].released() && (buttons[0].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN1].released() && (buttons[BTN1].previousDuration() > BUTTONHOLDTIME))
     { // button 1 changes MIDI channel
       flashLEDs(1);
       setupMIDIChan();
       setNotes();
     }
-    if (buttons[2].released() && (buttons[2].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN3].released() && (buttons[BTN3].previousDuration() > BUTTONHOLDTIME))
     { // button 3 enables chord only mode, seventh chords (bottom row plays diatonic 7th chords, top rows silent)
       flashLEDs(5);
       bool active = (chordMode == 1 && chordVoicing == 1);
       chordMode = active ? 0 : 1;
       chordVoicing = 1;
     }
-    if (buttons[3].released() && (buttons[3].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN4].released() && (buttons[BTN4].previousDuration() > BUTTONHOLDTIME))
     { // button 4 enables chord + note mode, seventh chords (bottom row plays diatonic 7th chords, top rows still play notes)
       flashLEDs(6);
       bool active = (chordMode == 2 && chordVoicing == 1);
       chordMode = active ? 0 : 2;
       chordVoicing = 1;
     }
-    if (buttons[4].released() && (buttons[4].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN5].released() && (buttons[BTN5].previousDuration() > BUTTONHOLDTIME))
     { // button 5 enables chord only mode, triads (bottom row plays diatonic triads, top rows silent)
       flashLEDs(4);
       bool active = (chordMode == 1 && chordVoicing == 0);
       chordMode = active ? 0 : 1;
       chordVoicing = 0;
     }
-    if (buttons[5].released() && (buttons[5].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN6].released() && (buttons[BTN6].previousDuration() > BUTTONHOLDTIME))
     { // button 6 enables chord + note mode, triads (bottom row plays diatonic triads, top rows still play notes)
       flashLEDs(3);
       bool active = (chordMode == 2 && chordVoicing == 0);
       chordMode = active ? 0 : 2;
       chordVoicing = 0;
     }
-    if (buttons[6].released() && (buttons[6].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN7].released() && (buttons[BTN7].previousDuration() > BUTTONHOLDTIME))
     { // button 7 changes scale
       flashLEDs(1);
       setupScale(false);
       setNotes();
     }
-    if (buttons[7].released() && (buttons[7].previousDuration() > BUTTONHOLDTIME))
+    if (buttons[BTN8].released() && (buttons[BTN8].previousDuration() > BUTTONHOLDTIME))
     { // button 8 changes root note
       flashLEDs(1);
       setupRoot();
       setNotes();
     }
+    if (buttons[BTN17].released() && (buttons[BTN17].previousDuration() > SLEEPBUTTONHOLDTIME))
+      rebootToBootloader(); // button 17 held at zero velocity reboots into bootloader mode for reflashing
   }
 
-  if (buttons[17].isPressed() && (buttons[17].currentDuration() > SLEEPBUTTONHOLDTIME))
-  {              // sleep function only requires button 18 is held for SLEEPBUTTONTIME ms
-    midiOFF(17); // turn off any notes sent when button was held
+  if (buttons[BTN18].isPressed() && (buttons[BTN18].currentDuration() > SLEEPBUTTONHOLDTIME))
+  {                 // sleep function only requires button 18 is held for SLEEPBUTTONTIME ms
+    midiOFF(BTN18); // turn off any notes sent when button was held
     enterSleep();
   }
 
