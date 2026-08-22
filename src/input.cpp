@@ -170,15 +170,19 @@ void actionButtons()
     {
       if (buttons[i].rose())
       {
-        if (i < 12)
-        {
-          if (chordMode != 1) // chords-only mode silences the top two rows' single notes
-            midiON(i);
+        if (chordMode == 1)
+        { // chords only: all three rows play chords, each row an octave above the last,
+          // clamped so the top row never exceeds octave 7 (the encoder's max)
+          int row = i / 6;
+          int rowOctave = min((int)currentOctave, 5) + row;
+          midiONChord(i, i % 6, (rowOctave - currentOctave) * 12);
         }
-        else if (chordMode == 0)
-          midiON(i); // no chord mode active: bottom row plays plain notes like the rest
+        else if (i < 12)
+          midiON(i);
+        else if (chordMode == 2)
+          midiONChord(i, i - 12, -12); // chord + note: bottom row plays chords one octave down so they ring under the notes played on top
         else
-          midiONChord(i, i - 12); // button 13 -> scale degree 1, button 14 -> degree 2, ... button 18 -> degree 6
+          midiON(i); // no chord mode active: bottom row plays plain notes like the rest
       }
     }
   }

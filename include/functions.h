@@ -27,7 +27,7 @@ void setupScale(bool skipsetup);
 
 // midi.cpp
 void midiON(int bNum);
-void midiONChord(int bNum, int degree);
+void midiONChord(int bNum, int degree, int octaveShift);
 void midiOFF(int bNum);
 
 // presets.cpp

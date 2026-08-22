@@ -16,15 +16,17 @@ void midiON(int bNum)
   buttonPlayed[3][bNum] = 0;
 }
 
-// plays the diatonic chord built on the given scale degree (0-5, i.e. buttons 13-18 map to
-// degrees 1-6, skipping the scale's top degree), stacked in thirds directly off the scale
-// ladder in buttonNotes[] so it automatically follows whatever scale/root/octave is active
-void midiONChord(int bNum, int degree)
+// plays the diatonic chord built on the given scale degree (0-5, i.e. buttons map to degrees
+// 1-6, skipping the scale's top degree), stacked in thirds directly off the scale ladder in
+// buttonNotes[] so it automatically follows whatever scale/root/octave is active. octaveShift
+// (in semitones, e.g. +/-12 per octave) transposes the whole chord for the row-spread in
+// chords-only mode, without needing a second scale ladder.
+void midiONChord(int bNum, int degree, int octaveShift)
 {
   buttonIsOn[bNum] = true;
-  uint8_t root = buttonNotes[degree];
-  uint8_t third = buttonNotes[degree + 2];
-  uint8_t fifth = buttonNotes[degree + 4];
+  uint8_t root = buttonNotes[degree] + octaveShift;
+  uint8_t third = buttonNotes[degree + 2] + octaveShift;
+  uint8_t fifth = buttonNotes[degree + 4] + octaveShift;
 
   midiHandler.sendNoteOn(midiChan, root, velocityValue);
   usbMIDI.noteOn(root, velocityValue, midiChan);
@@ -40,7 +42,7 @@ void midiONChord(int bNum, int degree)
 
   if (chordVoicing == 1)
   {
-    uint8_t seventh = buttonNotes[degree + 6];
+    uint8_t seventh = buttonNotes[degree + 6] + octaveShift;
     midiHandler.sendNoteOn(midiChan, seventh, velocityValue);
     usbMIDI.noteOn(seventh, velocityValue, midiChan);
     buttonPlayed[3][bNum] = seventh;
